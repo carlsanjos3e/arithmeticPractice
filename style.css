@@ -105,6 +105,7 @@ button:active {
     background-color: #fffacd; /* Lemon Chiffon */
     border: 2px dashed #ffd700; /* Gold */
     border-radius: 8px; /* Slightly smaller border-radius */
+    margin-bottom: 15px; /* Add some space below problem before buttons */
 }
 
 #problem-display {
@@ -120,6 +121,56 @@ button:active {
 
 .hidden {
     display: none;
+}
+
+#digit-selector {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    padding-top: 10px;
+    border-top: 1px solid #ccc; /* Separator line */
+}
+
+#digit-selector h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+#num-digits {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+#show-answer-btn {
+    background-color: #ff9800; /* Orange */
+    margin-top: 20px; /* Space above the button */
+    margin-bottom: 15px; /* Space below the button */
+}
+
+#show-answer-btn:hover {
+     background-color: #f57c00;
+}
+
+#answer-area {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #e0ffe0; /* Light Green */
+    border: 2px dashed #4CAF50; /* Green */
+    border-radius: 10px;
+}
+
+#answer-area h3 {
+    color: #388e3c; /* Darker Green */
+    margin-top: 0;
+    margin-bottom: 5px;
+}
+
+#answer-display {
+    font-size: 2.5em; /* Similar size to problem display */
+    color: #1b5e20; /* Even Darker Green */
+    min-height: 1.2em; /* Ensure space */
 }
 
 /* --- Media Query for larger screens (e.g., tablets and desktops) --- */
@@ -183,4 +234,29 @@ button:active {
     #problem-display {
         font-size: 3em; /* Restore font size */
     }
+
+    #digit-selector {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    #num-digits {
+         padding: 10px;
+         font-size: 1.1em;
+    }
+
+    #show-answer-btn {
+         margin-top: 25px;
+         margin-bottom: 20px;
+    }
+
+    #answer-area {
+         margin-top: 20px;
+         padding: 20px;
+    }
+
+    #answer-display {
+         font-size: 3em; /* Restore larger font size on larger screens */
+    }
+
 }
