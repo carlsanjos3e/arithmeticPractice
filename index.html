@@ -27,6 +27,17 @@
                 <label for="divide">➗ Division</label>
             </div>
 
+            <div id="digit-selector">
+                <h3>Number of Digits:</h3>
+                <select id="num-digits">
+                    <option value="1">1 Digit</option>
+                    <option value="2" selected>2 Digits</option>
+                    <option value="3">3 Digits</option>
+                    <option value="4">4 Digits</option>
+                     </select>
+            </div>
+
+
             <div id="division-options" class="hidden">
                 <h3>Division Options:</h3>
                 <input type="radio" id="no-remainder" name="remainder" value="no" checked>
@@ -41,6 +52,13 @@
 
         <div class="problem-area">
             <p id="problem-display">Click "Generate a Problem!" to start!</p>
+        </div>
+
+        <button id="show-answer-btn" class="hidden">Show Answer</button>
+
+        <div id="answer-area" class="hidden">
+            <h3>Answer:</h3>
+            <p id="answer-display"></p>
         </div>
     </div>
 
