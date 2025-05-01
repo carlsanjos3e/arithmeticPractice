@@ -1,61 +1,65 @@
+/* Basic styles for mobile-first */
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start; /* Align items to the top on mobile */
     min-height: 100vh;
     margin: 0;
-    padding: 20px;
+    padding: 10px; /* Reduced padding for small screens */
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
 }
 
 .container {
     background-color: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Reduced padding for small screens */
+    border-radius: 10px; /* Slightly smaller border-radius */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lighter shadow */
     text-align: center;
-    width: 100%;
-    max-width: 600px;
+    width: 100%; /* Take full width on mobile */
+    max-width: 600px; /* Max width for larger screens (will apply via media query or just be the upper limit) */
+    box-sizing: border-box;
 }
 
 h1 {
     color: #333;
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    font-size: 1.8em; /* Smaller font size for mobile */
+    margin-bottom: 15px;
 }
 
 h2, h3 {
     color: #555;
     margin-top: 15px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    font-size: 1.1em; /* Smaller font size for mobile */
 }
 
 .controls {
-    margin-bottom: 30px;
-    padding: 20px;
+    margin-bottom: 20px; /* Reduced margin */
+    padding: 15px; /* Reduced padding */
     background-color: #e9e9ff;
-    border-radius: 10px;
+    border-radius: 8px; /* Slightly smaller border-radius */
 }
 
 .operation-menu,
 #division-options {
-    margin-bottom: 15px;
-    display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-    justify-content: center; /* Center items horizontally */
-    gap: 10px; /* Space between items */
+    margin-bottom: 10px; /* Reduced margin */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px; /* Slightly smaller gap */
 }
 
 .operation-menu label,
 #division-options label {
     background-color: #a0a0ff;
     color: #333;
-    padding: 10px 15px;
-    border-radius: 5px;
+    padding: 8px 12px; /* Reduced padding */
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    font-size: 1.1em;
+    font-size: 1em; /* Base font size */
 }
 
 .operation-menu input[type="radio"],
@@ -74,15 +78,17 @@ button {
     background-color: #4CAF50; /* Green */
     border: none;
     color: white;
-    padding: 15px 25px;
+    padding: 12px 20px; /* Reduced padding */
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 1.2em;
-    margin-top: 20px;
-    border-radius: 8px;
+    font-size: 1.1em; /* Slightly smaller font size */
+    margin-top: 15px;
+    border-radius: 6px; /* Slightly smaller border-radius */
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.1s ease;
+    width: 100%; /* Make button full width on mobile */
+    max-width: 300px; /* Limit max width for larger screens */
 }
 
 button:hover {
@@ -90,26 +96,91 @@ button:hover {
 }
 
 button:active {
-    transform: scale(0.98); /* Add a slight press effect */
+    transform: scale(0.98);
 }
 
 .problem-area {
-    margin-top: 30px;
-    padding: 20px;
+    margin-top: 20px; /* Reduced margin */
+    padding: 15px; /* Reduced padding */
     background-color: #fffacd; /* Lemon Chiffon */
     border: 2px dashed #ffd700; /* Gold */
-    border-radius: 10px;
+    border-radius: 8px; /* Slightly smaller border-radius */
 }
 
 #problem-display {
-    font-size: 3em; /* Large font size for the problem */
+    font-size: 2.5em; /* Smaller font size for mobile */
     color: #d2691e; /* Chocolate */
-    min-height: 1.5em; /* Ensure space even if no problem is displayed */
-    display: flex; /* Use flexbox to center content */
+    min-height: 1.5em;
+    display: flex;
     justify-content: center;
     align-items: center;
+    word-break: break-word; /* Prevent long equations from overflowing */
+    padding: 5px; /* Add some padding in case of wrapping */
 }
 
 .hidden {
-    display: none; /* Utility class to hide elements */
+    display: none;
+}
+
+/* --- Media Query for larger screens (e.g., tablets and desktops) --- */
+@media (min-width: 600px) { /* Styles apply when viewport is at least 600px wide */
+    body {
+         align-items: center; /* Revert to centering vertically on larger screens */
+         padding: 20px; /* Restore padding */
+    }
+
+    .container {
+        padding: 30px; /* Restore padding */
+        border-radius: 15px; /* Restore border-radius */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Restore shadow */
+    }
+
+    h1 {
+        font-size: 2.5em; /* Restore font size */
+        margin-bottom: 20px;
+    }
+
+    h2, h3 {
+        font-size: 1.2em; /* Slightly larger font size */
+        margin-top: 15px;
+        margin-bottom: 10px;
+    }
+
+    .controls {
+        margin-bottom: 30px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+     .operation-menu,
+     #division-options {
+         margin-bottom: 15px;
+         gap: 10px; /* Restore gap */
+     }
+
+    .operation-menu label,
+    #division-options label {
+        padding: 10px 15px; /* Restore padding */
+        border-radius: 5px;
+        font-size: 1.1em; /* Restore font size */
+    }
+
+    button {
+        padding: 15px 25px; /* Restore padding */
+        font-size: 1.2em; /* Restore font size */
+        margin-top: 20px;
+        border-radius: 8px;
+        width: auto; /* Auto width for button on larger screens */
+        max-width: none; /* Remove max width */
+    }
+
+    .problem-area {
+        margin-top: 30px;
+        padding: 20px;
+        border-radius: 10px;
+    }
+
+    #problem-display {
+        font-size: 3em; /* Restore font size */
+    }
 }
