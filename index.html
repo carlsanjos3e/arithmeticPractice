@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arithmetic Practice!</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
@@ -54,12 +55,27 @@
             <p id="problem-display">Click "Generate a Problem!" to start!</p>
         </div>
 
-        <button id="show-answer-btn" class="hidden">Show Answer</button>
+        <div id="answer-input-area" class="hidden">
+             <label for="user-answer">Your Answer:</label>
+             <input type="text" id="user-answer" autocomplete="off">
+             <button id="check-answer-btn">Check Answer</button>
+        </div>
+
 
         <div id="answer-area" class="hidden">
-            <h3>Answer:</h3>
-            <p id="answer-display"></p>
+            <h3>Correct Answer:</h3>
+            <p id="correct-answer-display"></p>
         </div>
+
+        <div id="feedback-buttons-area" class="hidden">
+             <button id="got-it-right-btn">I got it right! 🎉</button>
+             <button id="couldnt-yet-btn">I couldn't get it yet. 🤔</button>
+        </div>
+
+        <div id="quote-display-area" class="hidden">
+            <p id="quote-text"></p>
+        </div>
+
     </div>
 
     <script src="script.js"></script>
