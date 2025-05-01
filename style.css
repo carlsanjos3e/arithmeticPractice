@@ -119,10 +119,6 @@ button:active {
     padding: 5px; /* Add some padding in case of wrapping */
 }
 
-.hidden {
-    display: none;
-}
-
 #digit-selector {
     margin-top: 15px;
     margin-bottom: 15px;
@@ -171,6 +167,116 @@ button:active {
     font-size: 2.5em; /* Similar size to problem display */
     color: #1b5e20; /* Even Darker Green */
     min-height: 1.2em; /* Ensure space */
+}
+
+#answer-input-area {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically on small screens */
+    align-items: center;
+    gap: 10px; /* Space between elements */
+}
+
+#answer-input-area label {
+    font-size: 1.2em;
+    color: #555;
+}
+
+#user-answer {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-align: center; /* Center text input */
+    width: 100%; /* Take full width on mobile */
+    max-width: 200px; /* Limit max width */
+    box-sizing: border-box;
+}
+
+#check-answer-btn {
+    /* Inherits base button styles, can add specific overrides if needed */
+     margin-top: 0; /* Remove extra margin from base button style */
+     width: auto; /* Don't force full width */
+     max-width: none; /* Remove max width */
+     padding: 10px 20px; /* Adjust padding */
+     font-size: 1em; /* Adjust font size */
+}
+
+
+/* Correct Answer Area (already had base styles, adding h3 and p styles) */
+#answer-area {
+    margin-top: 15px; /* Adjust margin */
+    margin-bottom: 15px; /* Add space below */
+}
+
+#answer-area h3 {
+    color: #388e3c;
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.1em; /* Match other h3 */
+}
+
+#correct-answer-display {
+    font-size: 2.5em; /* Match problem display size */
+    color: #1b5e20;
+     min-height: 1.2em;
+}
+
+
+/* Feedback Buttons Area */
+#feedback-buttons-area {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Stack buttons vertically on mobile */
+    gap: 10px;
+    align-items: center;
+}
+
+#feedback-buttons-area button {
+     width: 100%; /* Full width on mobile */
+     max-width: 250px; /* Limit width */
+     margin-top: 0; /* Remove extra margin */
+     font-size: 1.1em; /* Adjust size */
+     padding: 12px 20px;
+}
+
+#got-it-right-btn {
+     background-color: #4CAF50; /* Green */
+}
+#got-it-right-btn:hover {
+    background-color: #45a049;
+}
+
+#couldnt-yet-btn {
+    background-color: #2196F3; /* Blue */
+}
+#couldnt-yet-btn:hover {
+     background-color: #1976D2;
+}
+
+
+/* Quote Display Area */
+#quote-display-area {
+    margin-top: 15px;
+    padding: 15px;
+    background-color: #ffecb3; /* Light Yellow */
+    border: 2px dashed #ffc107; /* Amber */
+    border-radius: 10px;
+    font-style: italic;
+}
+
+#quote-text {
+    font-size: 1.1em;
+    color: #5d4037; /* Brown */
+}
+
+.hidden {
+    display: none;
 }
 
 /* --- Media Query for larger screens (e.g., tablets and desktops) --- */
@@ -259,4 +365,56 @@ button:active {
          font-size: 3em; /* Restore larger font size on larger screens */
     }
 
+    #answer-input-area {
+        flex-direction: row; /* Arrange items horizontally on larger screens */
+        justify-content: center;
+        gap: 15px;
+        padding: 20px;
+    }
+
+    #user-answer {
+        font-size: 1.5em; /* Larger font */
+        max-width: 250px;
+    }
+
+    #check-answer-btn {
+         padding: 15px 25px;
+         font-size: 1.2em;
+    }
+
+    #answer-area {
+         margin-top: 20px;
+         margin-bottom: 20px;
+    }
+
+    #answer-area h3 {
+         font-size: 1.2em;
+    }
+
+    #correct-answer-display {
+        font-size: 3em; /* Restore font size */
+    }
+
+    #feedback-buttons-area {
+         flex-direction: row; /* Arrange buttons horizontally */
+         gap: 15px;
+         margin-top: 25px;
+         margin-bottom: 25px;
+    }
+
+    #feedback-buttons-area button {
+         width: auto; /* Auto width */
+         max-width: none;
+         font-size: 1.2em;
+         padding: 15px 25px;
+    }
+
+    #quote-display-area {
+        margin-top: 20px;
+        padding: 20px;
+    }
+
+    #quote-text {
+        font-size: 1.2em;
+    }
 }
