@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arithmetic Practice!</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Let's Practice Math!</h1>
+
+        <div class="controls">
+            <h2>Choose an Operation:</h2>
+            <div class="operation-menu">
+                <input type="radio" id="add" name="operation" value="add" checked>
+                <label for="add">➕ Addition</label>
+
+                <input type="radio" id="subtract" name="operation" value="subtract">
+                <label for="subtract">➖ Subtraction</label>
+
+                <input type="radio" id="multiply" name="operation" value="multiply">
+                <label for="multiply">✖️ Multiplication</label>
+
+                <input type="radio" id="divide" name="operation" value="divide">
+                <label for="divide">➗ Division</label>
+            </div>
+
+            <div id="division-options" class="hidden">
+                <h3>Division Options:</h3>
+                <input type="radio" id="no-remainder" name="remainder" value="no" checked>
+                <label for="no-remainder">No Remainder</label>
+
+                <input type="radio" id="with-remainder" name="remainder" value="yes">
+                <label for="with-remainder">With Remainder</label>
+            </div>
+
+            <button id="generate-btn">Generate a Problem!</button>
+        </div>
+
+        <div class="problem-area">
+            <p id="problem-display">Click "Generate a Problem!" to start!</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
