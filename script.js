@@ -1,14 +1,39 @@
 document.addEventListener('DOMContentLoaded', () => {
     const operationRadios = document.querySelectorAll('input[name="operation"]');
-    const digitSelector = document.getElementById('num-digits'); // Get the digit dropdown
+    const digitSelector = document.getElementById('num-digits');
     const divisionOptions = document.getElementById('division-options');
     const generateBtn = document.getElementById('generate-btn');
     const problemDisplay = document.getElementById('problem-display');
-    const showAnswerBtn = document.getElementById('show-answer-btn'); // Get the show answer button
-    const answerArea = document.getElementById('answer-area'); // Get the answer area div
-    const answerDisplay = document.getElementById('answer-display'); // Get the paragraph for the answer
 
-    let currentAnswer = null; // Variable to store the calculated answer
+    // New elements for interaction
+    const answerInputArea = document.getElementById('answer-input-area');
+    const userAnswerInput = document.getElementById('user-answer');
+    const checkAnswerBtn = document.getElementById('check-answer-btn');
+    const answerArea = document.getElementById('answer-area'); // Correct answer display area
+    const correctAnswerDisplay = document.getElementById('correct-answer-display'); // Paragraph for correct answer
+
+    // New feedback elements
+    const feedbackButtonsArea = document.getElementById('feedback-buttons-area');
+    const gotItRightBtn = document.getElementById('got-it-right-btn');
+    const couldntYetBtn = document.getElementById('couldnt-yet-btn');
+    const quoteDisplayArea = document.getElementById('quote-display-area');
+    const quoteText = document.getElementById('quote-text');
+
+    let currentAnswer = null; // Variable to store the calculated correct answer
+
+    // --- Configuration ---
+    const motivationalQuotes = [
+        "Keep trying! Every mistake helps you learn.",
+        "You're doing great! Practice makes perfect.",
+        "Don't give up! Math is a journey.",
+        "Awesome effort! You're getting smarter every day.",
+        "Challenges help us grow stronger. Keep going!",
+        "Just one more try! You can do it.",
+        "Learning is fun! You're building your math muscles.",
+        "It's okay to find things tricky sometimes. That's how you learn!",
+    ];
+
+    // --- Helper Functions ---
 
     // Function to show/hide division options based on selected operation
     function toggleDivisionOptions() {
@@ -18,11 +43,11 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             divisionOptions.classList.add('hidden');
         }
-        // Also generate a new problem when the operation changes
+        // Generate a new problem when the operation changes
         generateProblem();
     }
 
-     // Function to generate a number with a specific number of digits
+    // Function to generate a number with a specific number of digits
     function generateNumberByDigits(digits, allowZero = false) {
         if (digits <= 0) return 0;
         if (digits === 1) {
@@ -37,45 +62,49 @@ document.addEventListener('DOMContentLoaded', () => {
     function getRandomInt(min, max) {
         min = Math.ceil(min);
         max = Math.floor(max);
-         if (min > max) { // Should not happen with correct logic, but as a safeguard
+         if (min > max) {
              [min, max] = [max, min];
          }
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Function to generate a problem
+    // --- Problem Generation ---
+
     function generateProblem() {
         const selectedOperation = document.querySelector('input[name="operation"]:checked').value;
-        const numDigits = parseInt(digitSelector.value); // Get selected number of digits
+        const numDigits = parseInt(digitSelector.value);
         let num1, num2, problemText;
         currentAnswer = null; // Reset answer
 
-        // Hide answer elements when a new problem is generated
+        // Hide all feedback and answer elements
+        answerInputArea.classList.add('hidden');
         answerArea.classList.add('hidden');
-        showAnswerBtn.classList.add('hidden');
+        feedbackButtonsArea.classList.add('hidden');
+        gotItRightBtn.classList.add('hidden');
+        couldntYetBtn.classList.add('hidden');
+        quoteDisplayArea.classList.add('hidden');
+        quoteText.textContent = ''; // Clear quote text
+        userAnswerInput.value = ''; // Clear user input
 
 
+        // --- Problem Logic based on Operation ---
         switch (selectedOperation) {
             case 'add':
-                num1 = generateNumberByDigits(numDigits, true); // Allow 0 in operands
+                num1 = generateNumberByDigits(numDigits, true);
                 num2 = generateNumberByDigits(numDigits, true);
                 currentAnswer = num1 + num2;
                 problemText = `${num1} + ${num2} = ?`;
                 break;
 
             case 'subtract':
-                 // Generate two numbers and ensure num1 >= num2
-                 let bigNum = generateNumberByDigits(numDigits + 1, true); // Generate potentially one extra digit
+                 let bigNum = generateNumberByDigits(numDigits + 1, true);
                  let smallNum = generateNumberByDigits(numDigits, true);
 
-                 // Ensure bigNum is greater than or equal to smallNum
                  if (bigNum < smallNum) {
-                     [bigNum, smallNum] = [smallNum, bigNum]; // Swap if needed
+                     [bigNum, smallNum] = [smallNum, bigNum];
                  }
-                 // Add a safeguard to ensure a non-negative answer for basic practice
-                 // While bigNum >= smallNum, smallNum might be 0 leading to trivial problems
-                 // Let's regenerate if smallNum is 0 or the problem is too easy (e.g., X - 0)
-                 while (smallNum === 0) {
+
+                 while (smallNum === 0) { // Avoid X - 0
                       smallNum = generateNumberByDigits(numDigits, true);
                       if (bigNum < smallNum) [bigNum, smallNum] = [smallNum, bigNum];
                  }
@@ -87,15 +116,12 @@ document.addEventListener('DOMContentLoaded', () => {
                  break;
 
             case 'multiply':
-                // Generate operands such that the result is roughly numDigits or more
-                // Generate operands with roughly numDigits / 2 digits
                 const operand1Digits = Math.ceil(numDigits / 2);
-                const operand2Digits = Math.floor(numDigits / 2) + (numDigits % 2); // Distribute digits
+                const operand2Digits = Math.floor(numDigits / 2) + (numDigits % 2);
 
-                num1 = generateNumberByDigits(operand1Digits, operand1Digits > 1 ? true : false); // Allow 0 if > 1 digit
-                num2 = generateNumberByDigits(operand2Digits, operand2Digits > 1 ? true : false); // Allow 0 if > 1 digit
+                num1 = generateNumberByDigits(operand1Digits, operand1Digits > 1 ? true : false);
+                num2 = generateNumberByDigits(operand2Digits, operand2Digits > 1 ? true : false);
 
-                 // Avoid trivial cases like X * 1 or 1 * X
                  while (num1 === 1 || num2 === 1 || num1 === 0 || num2 === 0) {
                      num1 = generateNumberByDigits(operand1Digits, operand1Digits > 1 ? true : false);
                      num2 = generateNumberByDigits(operand2Digits, operand2Digits > 1 ? true : false);
@@ -108,25 +134,17 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'divide':
                 const remainderOption = document.querySelector('input[name="remainder"]:checked').value;
 
-                // For division, it's easier to control difficulty by generating quotient and divisor
-                // Let the dividend (num1) size be influenced by the number of digits chosen.
-                const maxQuotientForDivision = Math.pow(10, numDigits) - 1; // Quotient can be up to numDigits
-                const maxDivisorForDivision = Math.max(10, Math.pow(10, Math.ceil(numDigits / 2) -1 )); // Divisor up to ~ half digits, min 10
+                const maxQuotientForDivision = Math.pow(10, numDigits) - 1;
+                const maxDivisorForDivision = Math.max(10, Math.pow(10, Math.ceil(numDigits / 2) -1 ));
 
 
                 if (remainderOption === 'no') {
-                    // Generate division with no remainder (a / b = c)
-                    // Generate quotient (c) and divisor (b), then calculate a = b * c
                     let quotient = getRandomInt(1, maxQuotientForDivision);
-                    let divisor = getRandomInt(2, maxDivisorForDivision > 2 ? maxDivisorForDivision : 10); // Divisor >= 2
+                    let divisor = getRandomInt(2, maxDivisorForDivision > 2 ? maxDivisorForDivision : 10);
 
+                    num1 = divisor * quotient;
+                    num2 = divisor;
 
-                    // Calculate dividend (a)
-                    num1 = divisor * quotient; // Dividend
-                    num2 = divisor;             // Divisor
-
-                     // Regenerate if dividend is 0, divisor is 1 (avoided by range),
-                     // or if the problem is just X / X = 1
                      while (num1 === 0 || (num1 === num2 && num1 !== 0)) {
                          quotient = getRandomInt(1, maxQuotientForDivision);
                          divisor = getRandomInt(2, maxDivisorForDivision > 2 ? maxDivisorForDivision : 10);
@@ -134,20 +152,17 @@ document.addEventListener('DOMContentLoaded', () => {
                          num2 = divisor;
                      }
 
-                    currentAnswer = quotient;
+                    currentAnswer = quotient; // Store only the quotient for checking
                     problemText = `${num1} ÷ ${num2} = ?`;
 
                 } else { // With remainder
-                    // Generate division with remainder (a = b * c + r)
-                    // Generate divisor (b), quotient (c), and remainder (r)
-                    let divisor = getRandomInt(2, maxDivisorForDivision + 10); // Divisor >= 2, slightly larger range
-                    let quotient = getRandomInt(0, maxQuotientForDivision); // Quotient can be 0
-                    let remainder = getRandomInt(1, Math.max(1, divisor - 1)); // Remainder between 1 and divisor-1
+                    let divisor = getRandomInt(2, maxDivisorForDivision + 10);
+                    let quotient = getRandomInt(0, maxQuotientForDivision);
+                    let remainder = getRandomInt(1, Math.max(1, divisor - 1));
 
-                    num1 = divisor * quotient + remainder; // Dividend
-                    num2 = divisor;                          // Divisor
+                    num1 = divisor * quotient + remainder;
+                    num2 = divisor;
 
-                     // Regenerate if dividend is not greater than divisor, or divisor < 2
                      while (num1 <= num2 || num2 < 2) {
                          divisor = getRandomInt(2, maxDivisorForDivision + 10);
                          quotient = getRandomInt(0, maxQuotientForDivision);
@@ -157,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
                      }
 
                     currentAnswer = { quotient: quotient, remainder: remainder }; // Store quotient and remainder
+                    // Problem text prompts for quotient AND remainder
                     problemText = `${num1} ÷ ${num2} = ? remainder ?`;
                 }
                 break;
@@ -165,36 +181,120 @@ document.addEventListener('DOMContentLoaded', () => {
         // Display the generated problem
         problemDisplay.textContent = problemText;
 
-        // Show the 'Show Answer' button after generating a problem
-        showAnswerBtn.classList.remove('hidden');
+        // Show the input area after generating a problem
+        answerInputArea.classList.remove('hidden');
+        userAnswerInput.focus(); // Put cursor in the input field
     }
 
-    // Function to display the answer
-    function showAnswer() {
-        if (currentAnswer !== null) {
-            let answerText;
-            if (typeof currentAnswer === 'object' && currentAnswer !== null && 'quotient' in currentAnswer && 'remainder' in currentAnswer) {
-                // Handle division with remainder answer
-                answerText = `Quotient: ${currentAnswer.quotient}, Remainder: ${currentAnswer.remainder}`;
-            } else {
-                // Handle simple addition, subtraction, multiplication, no-remainder division
-                answerText = currentAnswer;
+    // --- Answer Checking ---
+
+    function checkAnswer() {
+        const userAnswer = userAnswerInput.value.trim(); // Get user input and remove whitespace
+        const selectedOperation = document.querySelector('input[name="operation"]:checked').value;
+        let isCorrect = false;
+        let correctAnswerText;
+
+        // Handle different answer types
+        if (selectedOperation === 'divide' && typeof currentAnswer === 'object') {
+            // Division with remainder: Check only the quotient for simplicity of input
+            const userQuotient = parseInt(userAnswer);
+            if (!isNaN(userQuotient) && userQuotient === currentAnswer.quotient) {
+                 isCorrect = true;
             }
-            answerDisplay.textContent = answerText;
-            answerArea.classList.remove('hidden'); // Show the answer area
-            showAnswerBtn.classList.add('hidden'); // Hide the show answer button
+             correctAnswerText = `Quotient: ${currentAnswer.quotient}, Remainder: ${currentAnswer.remainder}`;
+
+        } else {
+             // All other operations (including no-remainder division) expect a single number
+             const parsedUserAnswer = parseFloat(userAnswer); // Use parseFloat for flexibility
+
+             if (!isNaN(parsedUserAnswer) && parsedUserAnswer === currentAnswer) {
+                 isCorrect = true;
+             }
+             correctAnswerText = currentAnswer;
+        }
+
+        // Display the correct answer regardless of correctness after checking
+        correctAnswerDisplay.textContent = correctAnswerText;
+        answerArea.classList.remove('hidden'); // Show the correct answer area
+
+        // Hide the input area and show feedback buttons
+        answerInputArea.classList.add('hidden');
+        feedbackButtonsArea.classList.remove('hidden');
+
+        // Show the appropriate feedback button
+        if (isCorrect) {
+            gotItRightBtn.classList.remove('hidden');
+            couldntYetBtn.classList.add('hidden'); // Hide the other button
+        } else {
+            gotItRightBtn.classList.add('hidden'); // Hide the other button
+            couldntYetBtn.classList.remove('hidden');
         }
     }
 
+    // --- Feedback Actions ---
 
-    // Add event listeners
+    function triggerConfetti() {
+        // Confetti effect
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 }
+        });
+         // Optionally trigger more confetti effects
+         setTimeout(() => {
+             confetti({
+                 particleCount: 50,
+                 spread: 80,
+                 origin: { x: 0.2, y: 0.8 }
+             });
+         }, 100);
+          setTimeout(() => {
+             confetti({
+                 particleCount: 50,
+                 spread: 80,
+                 origin: { x: 0.8, y: 0.8 }
+             });
+         }, 100);
+
+         // Hide the "Got It Right" button after a moment
+         setTimeout(() => {
+             gotItRightBtn.classList.add('hidden');
+             feedbackButtonsArea.classList.add('hidden'); // Hide the area too if both hidden
+         }, 3000); // Hide after 3 seconds
+    }
+
+    function displayMotivationalQuote() {
+        const randomIndex = getRandomInt(0, motivationalQuotes.length - 1);
+        quoteText.textContent = motivationalQuotes[randomIndex];
+        quoteDisplayArea.classList.remove('hidden');
+        // Hide the "Couldn't Get It Yet" button
+         couldntYetBtn.classList.add('hidden');
+         // feedbackButtonsArea.classList.add('hidden'); // Area will hide if both buttons hidden
+    }
+
+
+    // --- Event Listeners ---
     operationRadios.forEach(radio => {
         radio.addEventListener('change', toggleDivisionOptions);
     });
-    digitSelector.addEventListener('change', generateProblem); // Generate new problem when digits change
+    digitSelector.addEventListener('change', generateProblem);
     generateBtn.addEventListener('click', generateProblem);
-    showAnswerBtn.addEventListener('click', showAnswer); // Add listener to show answer button
+    checkAnswerBtn.addEventListener('click', checkAnswer); // Listener for check button
 
+    // Listeners for the feedback buttons
+    gotItRightBtn.addEventListener('click', triggerConfetti);
+    couldntYetBtn.addEventListener('click', displayMotivationalQuote);
+
+    // Allow checking answer by pressing Enter in the input field
+    userAnswerInput.addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent default form submission
+            checkAnswerBtn.click(); // Simulate button click
+        }
+    });
+
+
+    // --- Initial Setup ---
     // Generate an initial problem when the page loads
     generateProblem();
 });
